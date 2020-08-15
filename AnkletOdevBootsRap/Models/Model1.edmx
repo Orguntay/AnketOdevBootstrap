@@ -1,0 +1,469 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="odevDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cevaplar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="soruId" Type="int" Nullable="false" />
+          <Property Name="sira" Type="int" />
+          <Property Name="cevap" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dogrumu" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="katagoriler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ustId" Type="int" />
+          <Property Name="adi" Type="varchar" MaxLength="50" />
+          <Property Name="aciklama" Type="varchar" MaxLength="500" />
+          <Property Name="tarih" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sinavlar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="katId" Type="int" Nullable="false" />
+          <Property Name="ad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="testmi" Type="bit" />
+          <Property Name="puan" Type="int" />
+        </EntityType>
+        <EntityType Name="sorular">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="int" />
+          <Property Name="katID" Type="int" />
+          <Property Name="sinavId" Type="int" Nullable="false" />
+          <Property Name="soru" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="aciklama" Type="varchar" MaxLength="500" />
+          <Property Name="puan" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="yetki" Type="varchar" MaxLength="50" />
+          <Property Name="kullaniciadi" Type="varchar" MaxLength="50" />
+          <Property Name="sifre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="userSonuc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userID" Type="int" Nullable="false" />
+          <Property Name="soruId" Type="int" />
+          <Property Name="dogruCvpSys" Type="int" />
+          <Property Name="yanlisCvpSys" Type="int" />
+        </EntityType>
+        <Association Name="FK_cevaplar_sorular">
+          <End Role="sorular" Type="Self.sorular" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cevaplar" Type="Self.cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sorular">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cevaplar">
+              <PropertyRef Name="soruId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sinavlar_katagoriler">
+          <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sinavlar" Type="Self.sinavlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="katagoriler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sinavlar">
+              <PropertyRef Name="katId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sorular_katagoriler">
+          <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="katagoriler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sorular">
+              <PropertyRef Name="katID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sorular_users1">
+          <End Role="users" Type="Self.users" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sorular">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userSonuc_users">
+          <End Role="users" Type="Self.users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="userSonuc" Type="Self.userSonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userSonuc">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="odevDBModelStoreContainer">
+          <EntitySet Name="cevaplar" EntityType="Self.cevaplar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="katagoriler" EntityType="Self.katagoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sinavlar" EntityType="Self.sinavlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sorular" EntityType="Self.sorular" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userSonuc" EntityType="Self.userSonuc" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_cevaplar_sorular" Association="Self.FK_cevaplar_sorular">
+            <End Role="sorular" EntitySet="sorular" />
+            <End Role="cevaplar" EntitySet="cevaplar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sinavlar_katagoriler" Association="Self.FK_sinavlar_katagoriler">
+            <End Role="katagoriler" EntitySet="katagoriler" />
+            <End Role="sinavlar" EntitySet="sinavlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sorular_katagoriler" Association="Self.FK_sorular_katagoriler">
+            <End Role="katagoriler" EntitySet="katagoriler" />
+            <End Role="sorular" EntitySet="sorular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sorular_users1" Association="Self.FK_sorular_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="sorular" EntitySet="sorular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userSonuc_users" Association="Self.FK_userSonuc_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="userSonuc" EntitySet="userSonuc" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="odevDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cevaplar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="soruId" Type="Int32" Nullable="false" />
+          <Property Name="sira" Type="Int32" />
+          <Property Name="cevap" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dogrumu" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="sorular" Relationship="Self.FK_cevaplar_sorular" FromRole="cevaplar" ToRole="sorular" />
+        </EntityType>
+        <EntityType Name="katagoriler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ustId" Type="Int32" />
+          <Property Name="adi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="aciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="tarih" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="sinavlars" Relationship="Self.FK_sinavlar_katagoriler" FromRole="katagoriler" ToRole="sinavlar" />
+          <NavigationProperty Name="sorulars" Relationship="Self.FK_sorular_katagoriler" FromRole="katagoriler" ToRole="sorular" />
+        </EntityType>
+        <EntityType Name="sinavlar">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="katId" Type="Int32" Nullable="false" />
+          <Property Name="ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="testmi" Type="Boolean" />
+          <Property Name="puan" Type="Int32" />
+          <NavigationProperty Name="katagoriler" Relationship="Self.FK_sinavlar_katagoriler" FromRole="sinavlar" ToRole="katagoriler" />
+        </EntityType>
+        <EntityType Name="sorular">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="katID" Type="Int32" />
+          <Property Name="sinavId" Type="Int32" Nullable="false" />
+          <Property Name="soru" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="aciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="puan" Type="Int32" />
+          <NavigationProperty Name="cevaplars" Relationship="Self.FK_cevaplar_sorular" FromRole="sorular" ToRole="cevaplar" />
+          <NavigationProperty Name="katagoriler" Relationship="Self.FK_sorular_katagoriler" FromRole="sorular" ToRole="katagoriler" />
+          <NavigationProperty Name="user" Relationship="Self.FK_sorular_users1" FromRole="sorular" ToRole="users" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="yetki" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="kullaniciadi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="sorulars" Relationship="Self.FK_sorular_users1" FromRole="users" ToRole="sorular" />
+          <NavigationProperty Name="userSonucs" Relationship="Self.FK_userSonuc_users" FromRole="users" ToRole="userSonuc" />
+        </EntityType>
+        <EntityType Name="userSonuc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userID" Type="Int32" Nullable="false" />
+          <Property Name="soruId" Type="Int32" />
+          <Property Name="dogruCvpSys" Type="Int32" />
+          <Property Name="yanlisCvpSys" Type="Int32" />
+          <NavigationProperty Name="user" Relationship="Self.FK_userSonuc_users" FromRole="userSonuc" ToRole="users" />
+        </EntityType>
+        <Association Name="FK_cevaplar_sorular">
+          <End Role="sorular" Type="Self.sorular" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="cevaplar" Type="Self.cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sorular">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cevaplar">
+              <PropertyRef Name="soruId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sinavlar_katagoriler">
+          <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sinavlar" Type="Self.sinavlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="katagoriler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sinavlar">
+              <PropertyRef Name="katId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sorular_katagoriler">
+          <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="katagoriler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sorular">
+              <PropertyRef Name="katID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sorular_users1">
+          <End Role="users" Type="Self.user" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="sorular">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userSonuc_users">
+          <End Role="users" Type="Self.user" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="userSonuc" Type="Self.userSonuc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userSonuc">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="odevDBEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cevaplars" EntityType="Self.cevaplar" />
+          <EntitySet Name="katagorilers" EntityType="Self.katagoriler" />
+          <EntitySet Name="sinavlars" EntityType="Self.sinavlar" />
+          <EntitySet Name="sorulars" EntityType="Self.sorular" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="userSonucs" EntityType="Self.userSonuc" />
+          <AssociationSet Name="FK_cevaplar_sorular" Association="Self.FK_cevaplar_sorular">
+            <End Role="sorular" EntitySet="sorulars" />
+            <End Role="cevaplar" EntitySet="cevaplars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sinavlar_katagoriler" Association="Self.FK_sinavlar_katagoriler">
+            <End Role="katagoriler" EntitySet="katagorilers" />
+            <End Role="sinavlar" EntitySet="sinavlars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sorular_katagoriler" Association="Self.FK_sorular_katagoriler">
+            <End Role="katagoriler" EntitySet="katagorilers" />
+            <End Role="sorular" EntitySet="sorulars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sorular_users1" Association="Self.FK_sorular_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="sorular" EntitySet="sorulars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userSonuc_users" Association="Self.FK_userSonuc_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="userSonuc" EntitySet="userSonucs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="odevDBModelStoreContainer" CdmEntityContainer="odevDBEntities4">
+          <EntitySetMapping Name="cevaplars">
+            <EntityTypeMapping TypeName="odevDBModel.cevaplar">
+              <MappingFragment StoreEntitySet="cevaplar">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="soruId" ColumnName="soruId" />
+                <ScalarProperty Name="sira" ColumnName="sira" />
+                <ScalarProperty Name="cevap" ColumnName="cevap" />
+                <ScalarProperty Name="dogrumu" ColumnName="dogrumu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="katagorilers">
+            <EntityTypeMapping TypeName="odevDBModel.katagoriler">
+              <MappingFragment StoreEntitySet="katagoriler">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ustId" ColumnName="ustId" />
+                <ScalarProperty Name="adi" ColumnName="adi" />
+                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
+                <ScalarProperty Name="tarih" ColumnName="tarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sinavlars">
+            <EntityTypeMapping TypeName="odevDBModel.sinavlar">
+              <MappingFragment StoreEntitySet="sinavlar">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="katId" ColumnName="katId" />
+                <ScalarProperty Name="ad" ColumnName="ad" />
+                <ScalarProperty Name="testmi" ColumnName="testmi" />
+                <ScalarProperty Name="puan" ColumnName="puan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sorulars">
+            <EntityTypeMapping TypeName="odevDBModel.sorular">
+              <MappingFragment StoreEntitySet="sorular">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="katID" ColumnName="katID" />
+                <ScalarProperty Name="sinavId" ColumnName="sinavId" />
+                <ScalarProperty Name="soru" ColumnName="soru" />
+                <ScalarProperty Name="aciklama" ColumnName="aciklama" />
+                <ScalarProperty Name="puan" ColumnName="puan" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="odevDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="odevDBModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="yetki" ColumnName="yetki" />
+                <ScalarProperty Name="kullaniciadi" ColumnName="kullaniciadi" />
+                <ScalarProperty Name="sifre" ColumnName="sifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userSonucs">
+            <EntityTypeMapping TypeName="odevDBModel.userSonuc">
+              <MappingFragment StoreEntitySet="userSonuc">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="soruId" ColumnName="soruId" />
+                <ScalarProperty Name="dogruCvpSys" ColumnName="dogruCvpSys" />
+                <ScalarProperty Name="yanlisCvpSys" ColumnName="yanlisCvpSys" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

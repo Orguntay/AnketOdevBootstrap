@@ -1,0 +1,89 @@
+﻿@using AnkletOdevBootsRap.Models;
+@{
+    ViewBag.Title = "KatagoriEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/signin.css" rel="stylesheet" />
+<style type="text/css">
+    .uyeKapsayici {
+        margin-top: 70px;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        /*margin-left: 15px;*/
+    }
+</style>
+<div class="col-md-offset-3 col-md-6 uyeKapsayici">
+    <h2>Katagori Ekle</h2>
+
+    @*<form class="form-signin">*@
+    @*@using (Ajax.BeginForm("KatagoriEkle", "Ekle", FormMethod.Post, new AjaxOptions { UpdateTargetId = "result" }))
+        {*@
+    <div class="form-group">
+        <label>Üst Kategori Seçiniz</label>
+        <select class="form-control" name="slct" id="slct">
+            @foreach (var ktg in ViewBag.kat as IEnumerable<katagoriler>)
+            {
+                <option value="@ktg.id" data-id="@ktg.id">@ktg.adi</option>
+            }
+        </select>
+    </div>
+    <p class="help-block"></p>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Kategori Giriniz</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Katagori Giriniz" name="girilenKTG">
+    </div>
+    @*<p class="help-block"></p>
+    <div class="form-group">
+        <label for="ad">Sınav Adı Giriniz?</label>
+        <input type="text" class="form-control" id="ad" placeholder="Sınav Adı Giriniz" name="ad">
+    </div>*@
+    <p class="help-block"></p>
+    @*<div class="form-group">
+        <label for="chek">Anket mi?</label>
+        <input type="checkbox" id="chek" placeholder="Anket mi?" name="chek">
+    </div>*@
+    <div class="form-group">
+        <label for="girilenACK">Açıklama Giriniz</label>
+        <input type="text" class="form-control" id="girilenACK" placeholder="Açıklama Giriniz" name="girilenACK">
+    </div>
+    <p class="help-block"></p>
+    <button type="submit" class="btn btn-primary" id="btnKaydet">Kaydet</button>
+    @*}*@
+    @*</form>*@
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        $("#btnKaydet").click(function () {
+            var id = 0;
+            id = $("#slct option:selected").attr("data-id");
+            var txt = $("#exampleInputEmail1").val();
+            var girilenACK = $("#girilenACK").val();
+            //alert(id);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("KatagoriEkle", "Ekle")',
+                datatype: "json",
+                data: {
+                    "id": id,
+                    //"ad":ad,
+                    "girilenKTG": txt,
+                    "girilenACK":girilenACK
+                },
+                success: function (response) {
+                    alert("Başarılı Bir Şekilde Kayıt İşlemi Gerçekleşmiştir.");
+                    window.location.href = '@Url.Action("KatagoriEkle", "Ekle")'
+                },
+                error: function (errordata) {
+                }
+            });
+        });
+
+    });
+
+
+</script>

@@ -1,0 +1,187 @@
+﻿@{
+    string yetki = "";
+    if (Session["yetki"] != null)
+    {
+        yetki = Session["yetki"].ToString();
+    }
+    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/carousel.css" rel="stylesheet" />
+   
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <style type="text/css">
+
+        .glyphicon-user, glyphicon-lock {
+            margin-top: 7px;
+        }
+        .giris {
+            display: inline-flex;
+            margin-top: 3px;
+        }
+        #sifre {
+            margin-top: -4px;
+        }
+        #btnGiris{
+            margin-top:5px;
+        }
+        #ustSagAlt {
+            margin-left: 277px;
+        }
+        .kullanici {
+            margin-top: 10px;
+        }
+         .collapse ul {
+            list-style: none;
+        }
+        .kps {
+            height: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <div class="container">
+
+            <div class="navbar navbar-inverse navbar-static-top kps" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Hoş Geldiniz Sitemiz Allahın İzniyle Sizin Kullanımlarınız İçinde Kolaylıklar Sağlayacak</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @*<a class="navbar-brand" href="#">Toplumun Nabzı</a>*@
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="/Home/Index">Sorular Dünyası</a></li>
+                            <li><a href="/Home/BasariListesi">En İyi  10 Kullanıcı</a></li>
+                            @if (yetki == "admin")
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/Ekle/TestEkle">Test Ekle</a></li>
+                                        <li><a href="/Ekle/AnketEkle">Anket Ekle</a></li>                                        
+                                        <li><a href="/Ekle/SinavAdiEkle">Sinav Adı Ekle</a></li>
+                                        <li><a href="/Ekle/KatagoriEkle">Kategori Ekle</a></li>
+                                    </ul>
+                                </li>
+                            }
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sorular<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="/Home/Sorular">Anketler</a></li>
+                                    <li><a href="/Home/Sorular">Testler</a></li>
+                                </ul>
+                                @*<div class="clearfix"></div>*@
+                            </li>
+                            </ul>
+                        @if ( yetki == "")
+                        {                         
+                           <ul class="pull-right" style="padding-left:0px;">
+                            @using (Ajax.BeginForm("Login", "Home", FormMethod.Post, new AjaxOptions { UpdateTargetId = "result" }))
+                            {
+                                <li>
+                                    <div class="form-group giris">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;
+                                        <input type="text" class="form-control giris" data-role="none" placeholder="Kullanıcı Adı" name="kAdi">
+                                    </div>
+                                    <div class="form-group giris">
+                                        <span class="glyphicon glyphicon-lock"></span>&nbsp;
+                                        <input type="password" class="form-control giris" id="sifre" placeholder="Şifre" name="sifree">
+                                    </div>
+                                    <button type="submit" class="btn btn-success" id="btnGiris" name="giris">Giriş</button>
+                                </li>
+                                <li id="ustSagAlt">
+                                    <label>
+                                        <input type="checkbox"> Beni Haıtrla
+                                    </label>&nbsp;&nbsp;
+                                    <a href="Home/UyeKayit" class="btn btn-warning">Kayıt Ol</a>
+                                </li>
+                            }
+                        </ul>
+                        }
+                        else { 
+                        <ul class="pull-right kullanici">
+                            <li>
+                                <label>Hoş Geldiniz Sayın @Session["ad"]</label>&nbsp;
+                                <button type="button" class="btn btn-danger" id="cikis">Çıkış</button>
+                            </li>
+                        </ul>
+                        }
+                    </div>
+                    <p class="help-block"></p>
+                </div>
+            </div>
+            <p class="help-block"></p>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+
+    <div class="container body-content kapsayici">
+        <p class="help-block"></p>
+        @RenderBody()
+        <hr />
+        <footer id="son" >
+            <p>&copy; Company 2014</p>
+        </footer>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var dokumanBoy = $(document).height();
+            var pencereBoy = $(window).height()
+            var pencereEn = $(window).width();
+            if (pencereBoy >= dokumanBoy) {
+                $("#son").css( "margin-top", pencereBoy -170 );
+                //alert($("#son").position().top); 
+            }
+            //pencereBoy >= 768 &&
+            if (pencereEn <= 768) {
+                $(".sag").removeClass("pull-right");
+                $(".sag").addClass("pull-left");
+                $(".kapsayici").css("margin-top", 70);
+                //alert("küçük")
+            }
+            else if (pencereEn > 778) {
+                //alert("768den buyuk");
+                $(".kapsayici").css("margin-top", 15);
+            }
+
+            $('#cikis').click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Cikis", "Home")',
+                    //datatype: "json",
+                    //data: { "tab": tab },
+                    success: function (response) {
+                        window.location.href = '@Url.Action("index", "Home")';
+                    },
+                    error: function (errordata) {
+                    }
+                });
+            });
+
+        });
+    </script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/js/docs.min.js"></script>
+    <script src="~/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+﻿@using AnkletOdevBootsRap.Models;
+@model IEnumerable<katagoriler>
+    @{
+    ViewBag.Title = "SinavEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/signin.css" rel="stylesheet" />
+<style type="text/css">
+    .uyeKapsayici {
+        margin-top: 70px;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="clearfix"></div>
+<div class="col-md-offset-3 col-md-6 uyeKapsayici">
+    <h2>Sinav Adı Ekle</h2>
+
+    @*<form class="form-signin">*@
+    @*@using (Ajax.BeginForm("KatagoriEkle", "Ekle", FormMethod.Post,null))*@
+        @*{*@
+    <div class="form-group">
+        <label>Üst Kategori Seçiniz</label>
+        <select class="form-control" name="slct" id="slct">
+            @foreach (var ktg in ViewBag.kat as IEnumerable<katagoriler>)
+            {
+                <option value="@ktg.id" data-id="@ktg.id">@ktg.adi</option>
+            }
+        </select>
+    </div>
+
+    <p class="help-block"></p>
+    <div class="form-group">
+        <label for="ad">Sınav Adı Giriniz?</label>
+        <input type="text" class="form-control" id="ad" name="ad" placeholder="Sınav Adı Giriniz" required @*onkeyup="kCap(this);"*@>
+    </div>
+
+    <p class="help-block"></p>
+    <div class="form-group">
+        <label for="chek">Anket</label>
+        <input type="checkbox" id="chek" name="chek" placeholder="Anket">
+    </div>
+
+    <div class="form-group">
+        <label for="puan">Puan Giriniz</label>
+        <input type="number" class="form-control" name="puan" id="puan" placeholder="1-10000 Arası Puan Giriniz">
+    </div>
+
+    <p class="help-block"></p>
+    <div class="form-group">
+        <button type="button" name="kaydet" id="kaydet" class="btn btn-primary">Kaydet</button>
+    </div>
+    @*}*@
+    @*</form>*@
+</div>
+
+
+@*<script src="~/js/json2.js"></script>*@ 
+@*<script src="~/Scripts/jquery-2.1.1.js"></script>*@
+
+    @*<script src="~/Scripts/jquery-ui.min-1.11.1.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //Silme Düzelt
+        //function kCap(iO) {
+        //    iO.value = iO.value.replace(/([\wöçşğüıİ])/gi,
+        //    function (a, b) { return b.replace("I", "ı").toLowerCase() }).replace(/(^[a-zöçşğüı]|[\s][a-zöçşğüı])/g,
+        //    function (c, d) { return d.replace("i", "İ").toUpperCase() });
+        //}
+
+        $("#kaydet").click(function (e) {
+            var katId = $("#slct option:selected").attr("data-id");
+            var puan = $("#puan").val();
+            if (puan == null || puan == "") {
+                var defaultMu = confirm("Soru Puanı Giriniz veya Default 10.000 Puan Geçilsin!");
+            }            
+            if (defaultMu) {
+                puan = 10000;
+            }
+            else if (puan == null || puan == "") {
+                $("#puan").focus();
+                e.preventDefault;
+                //return false;
+            }
+            var ad = $("#ad").val();
+            var testmi = $("#chek").is(":checked");
+            //alert(puan)
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SinavAdiEkle", "Ekle")',
+                datatype: "json",
+                data: {
+                    "katId": katId,
+                    "ad": ad,
+                    "testmi": testmi,
+                    "puan": puan                    
+                },
+                success: function (response) {
+                    alert("Başarılı Bir Şekilde Kayıt İşlemi Gerçekleşmiştir.");
+                    window.location.href = '@Url.Action("SinavAdiEkle", "Ekle")'
+                },
+                error: function (jqXHR, exception) {
+                    alert("Bir Hata Oluştu!, Lütfen Tekrar Deneyiniz.");
+
+                }
+            });//ajax
+        });//kaydet
+
+    });//document ready
+</script>

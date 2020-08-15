@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="46176358f7af4113aa910c1e1ab40a35" Name="Diagram1">
+        <EntityTypeShape EntityType="odevDBModel.cevaplar" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.katagoriler" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.sinavlar" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.sorular" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.sysdiagram" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.user" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="odevDBModel.userSonuc" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="odevDBModel.FK_cevaplar_sorular" ManuallyRouted="false" />
+        <AssociationConnector Association="odevDBModel.FK_sinavlar_katagoriler" ManuallyRouted="false" />
+        <AssociationConnector Association="odevDBModel.FK_sorular_katagoriler" ManuallyRouted="false" />
+        <AssociationConnector Association="odevDBModel.FK_sorular_users1" ManuallyRouted="false" />
+        <AssociationConnector Association="odevDBModel.FK_userSonuc_users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

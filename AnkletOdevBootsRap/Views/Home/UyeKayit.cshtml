@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "UyeKayit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .uyeKapsayici{
+        margin-top:150px;
+    }
+    h2{
+        margin-bottom:15px;
+        margin-left:30px;
+    }
+</style>
+<div class="container uyeKapsayici">
+    <div class="col-md-12">
+        @using (Html.BeginForm("UyeKayit","Home",FormMethod.Post))
+        { 
+        <div class="col-md-offset-3 col-md-6">
+            <h2>Yeni Üye Kayıt</h2>
+            <div class="col-md-12 form-group">
+                <div class="col-md-6">
+                    <label>E-Mail</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="email" placeholder="e-posta" class="form-control" required />
+                </div>
+            </div>
+            <div class="col-md-12 form-group">
+                <div class="col-md-6">
+                    <label>Şifre</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="password" name="sifre" id="sifre" placeholder="Şifre" class="form-control" required />
+                </div>
+            </div>
+            <div class="col-md-12 form-group">
+                <div class="col-md-6">
+                    <label>Şifre Tekrarı</label>
+                </div>
+                <div class="col-md-6">
+                    <input type="password" name="sifre2" id="sifre2" placeholder="Şifre Tekrarı" class="form-control" required />
+                </div>
+            </div>
+            <div class="col-md-6 col-md-offset-6 form-group">
+                <button class="btn btn-primary btn-lg pull-left" id="btnKayit">Kayıt Ol</button>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+<div class="clearfix"></div>
+@if (ViewBag.mesaj == 1)
+{
+    <script>alert("Bu Kullanıcı Adına Sahip Kayıtlı Bir Üyemiz Var. Lütfen Başka Bir Kullanıcı Adı Giriniz"); </script>
+}
+else if (ViewBag.mesaj == 3)
+{
+    <script>alert("Lütfen Şifrenizi Dikkatli Giriniz. Aynı olmayabilir."); </script>
+}
+@*<script src="~/Scripts/jquery-2.1.1.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#btnKayit").click(function () {
+        //    if ($("#sifre").val() != $("#sifre2").val()) {
+        //        alert("Lütfen Şifrenizi Dikkatli Giriniz.</br> Aynı olmayabilir.")
+        //    }
+        //});
+    });
+</script>

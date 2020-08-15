@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    #myCarousel{
+        top:100px;
+        height:200px;
+    }
+    .item img {
+        height: 200px !important;
+    }
+    .carousel-inner {
+        height: 200px;       
+    }
+    /***** Liste css i *****/
+    .liste ul {
+        text-decoration: none;
+        list-style: none;
+    }
+        .liste ul li a {
+            cursor: pointer;
+            color: #0094ff;
+            text-decoration: none;
+            transition: all ease-in-out .5s;
+        }
+    .liste ul li a:hover  {
+        color: rgba(255, 143, 5, 0.85);
+    }
+    /***** Liste css i Sonu *****/
+</style>
+<!-- Carousel
+  ================================================== -->
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" ></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2" class="active" ></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="item ">
+            <img src="~/img/test.png" alt="First slide" >
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Example headline.</h1>
+                    <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/img/anket.png" alt="Second slide" >
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>Another example headline.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="item active">
+            <img src="~/img/sorular.jpg" alt="Sorular" >
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>One more for good measure.</h1>
+                    <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div><!-- /.carousel -->
+
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Sorular Dünyasına Hoşgeldiniz!</h1>
+        <p>Bu platformda testler çözebilir, anketleri cevaplayabilir, toplumun nabzını tutabilir ve milyonlarca kulanıcı arsında sıralamaya girebilirsiniz.<i> Gerçekleri öğrenme ve yarışma heyecanı başlıyor...</i></p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="/Home/Sorular">Şimdi Başla... &raquo;</a></p>
+    </div>
+</div>
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row liste">
+        <div class="col-md-4">
+            <h2>En Popiler 5 Anket</h2>
+            <ul>
+                <li><a>Dünya yok olacak mı?</a></li>
+                <li><a>Anneler duygusal mı?</a></li>
+                <li><a>Babamın bir atı olacak mı?</a></li>
+                <li><a>Dünyanın 9. harikası var mı?</a></li>
+                <li><a>Çocuklar ne zaman büyür?</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>En Başarılı 5 Kullanıcı</h2>
+            <ul>
+                <li><a>Murat Tansuq</a></li>
+                <li><a>Niran Ünsal</a></li>
+                <li><a>Erol Türkoğlu</a></li>
+                <li><a>Elif Türk</a></li>
+                <li><a>Selda Koçoğlu</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h2>En Popiler 5 Test</h2>
+            <ul>
+                <li><a>Matematik 13A</a></li>
+                <li><a>Tarih 27C</a></li>
+                <li><a>Coğrafya 3B</a></li>
+                <li><a>Genel Kültür 1B</a></li>
+                <li><a>Müzik 8C</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    @*<script src="~/Scripts/bootstrap.js"></script>*@
+    @*<script src="~/Scripts/jquery-2.1.1.js"></script>*@
+
+    @*<script type="text/javascript">
+
+    </script>*@

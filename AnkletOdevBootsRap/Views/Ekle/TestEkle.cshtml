@@ -1,0 +1,310 @@
+﻿@using AnkletOdevBootsRap.Models;
+@{
+    ViewBag.Title = "AnketEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/signin.css" rel="stylesheet" />
+<style type="text/css">
+    .uyeKapsayici {
+        margin-top: 70px;
+    }
+
+    .form-signin {
+        max-width: 100%;
+        padding: 0px;
+        margin: 0 auto;
+    }
+
+    .liste ul {
+        cursor: move;
+        padding-left: 0px;
+    }
+
+     .liste ul li:nth-child(1) {
+         margin-left: 0px !important;
+     }
+    
+     .liste ul li {
+         display: inline-block;
+         list-style-type: lower-latin;
+         margin: 15px;
+         margin-left: 0px;
+         transition: all ease-in-out .3s;
+     }
+
+    .liste ul li:hover {
+        padding: 10px;
+        color: #519a00;
+        border: 1px solid #ddd;
+    }
+
+    .liste ul li a {
+        cursor: pointer;
+        text-decoration: none;
+        transition: all ease-in-out .3s;
+    }
+
+    .liste ul li a:hover {
+        color: #ff0000;
+    }
+
+    .baslik {
+        display: none;
+    }
+
+    .checkbox {
+        cursor: default;
+    }
+
+    .capitalise {
+        text-transform: capitalize;
+    }
+</style>
+<div class="col-md-offset-2 col-md-8 uyeKapsayici">
+
+    <h2>Test Sorusu Ekle</h2>
+    <div class="form-signin">
+        <div class="form-group">
+            <label>Kategori Seçiniz &dArr;</label>
+            <select class="form-control" name="katId" id="katId">
+
+                @foreach (katagoriler ktg in ViewBag.kat as IEnumerable<katagoriler>)
+                {
+                    <option value="@ktg.id" data-id="@ktg.id">@ktg.adi</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Sınavın Adını Seçiniz&dArr;&nbsp;&nbsp;&nbsp;Soru Adedi&rArr;<span id="adet"></span></label>
+            <select class="form-control" name="snvId" id="snvId">
+                @if (ViewBag.snv != null)
+                {
+                    foreach (var snv in ViewBag.snv as IEnumerable<sinavlar>)
+                    {
+                        <option value="@snv.katId" data-id="@snv.id">@snv.ad</option>
+                    }
+                }
+
+            </select>
+        </div>
+        <p class="help-block"></p>
+        <div class="form-group">
+            <label for="soru">Soruyu Giriniz &dArr;</label>
+            <input type="text" class="form-control" name="soru" id="soru" data-id="0" placeholder="Soruyu Giriniz" multiple required />
+        </div>
+        <p class="help-block"></p>
+        <div>
+            <label for="sk">Şık Giriniz &dArr;</label>
+            <input type="text" name="sk" id="sk" class="form-control" placeholder="Şık Giriniz" />
+            <p class="help-block"></p>
+            <input type="button" name="skEkle" id="skEkle" class="btn btn-warning pull-right" value="Şık Ekle" />
+            <p class="help-block"></p>
+        </div>
+        <p class="help-block"></p>
+        <div class="form-group liste @*col-md-12*@">
+            <label for="sil" class="baslik">Doğru Şıkları çek'leyiniz &dArr;</label>
+
+            <ul id="ul">
+                <li data-sira='2'><input type="checkbox" class="checkbox" id="checkboxSuccess">Hepsi <a id="sil">&lArr; Sil</a></li>
+                <li data-sira='1'><input type="checkbox" class="checkbox" id="checkboxSuccess" checked>Hiçbiri <a id="sil">&lArr; Sil</a></li>
+                <li data-sira='3'><input type="checkbox" class="checkbox" id="checkboxSuccess" checked>Bazıları <a id="sil">&lArr; Sil</a></li>
+            </ul>
+        </div>
+        <p class="help-block"></p>
+        <div class="form-group">
+            <label for="puan">Puan Giriniz</label>
+            <input type="number" class="form-control" name="puan" id="puan" placeholder="1-100 Arası Puan Giriniz" required>
+        </div>
+        <p class="help-block"></p>
+        <div class="form-group">
+            <label for="ack">Açıklama Giriniz &dArr;</label>
+            <textarea class="form-control" id="ack" name="ack" data-id="0" placeholder="Açıklama Giriniz" rows="2"></textarea>
+        </div>
+        <p class="help-block"></p>
+        <div class="form-group">
+            <button type="submit" name="kaydet" id="kaydet" class="btn btn-primary">Kaydet</button>
+        </div>
+    </div>
+</div>
+@*<script src="~/js/json2.js"></script>*@
+@*<script src="~/Scripts/jquery-2.1.1.js"></script>*@
+<script src="~/Scripts/jquery-ui.min-1.11.1.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("select#snvId").change(function () {
+            soruAdet();
+        });
+        $("select#katId").change(function () {
+            var katId = $("#katId option:selected").attr("data-id");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Testler", "Ekle")',
+                datatype: "json",
+                data: {
+                    "katId": katId
+                },
+                success: function (e) {
+                    $("#snvId option").remove();
+
+                    $.each(e, function (index, value) {
+                        $("#snvId").append("<option value=" + value.Value + " data-id=" + value.Value + ">" + value.Text + "</option>");
+                    });
+                    soruAdet();
+                },
+                error: function (jqXHR, exception) {
+                    alert("Bir Hata Oluştu, Seçim Gerçekleşmedi.");
+
+                }
+            });
+            
+        });
+
+        function soruAdet() {
+            var snvId = $("#snvId").val();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SoruSay", "Home")',
+                datatype: "json",
+                data: {
+                    "snvId": snvId
+                },
+                success: function (e) {
+                    $("#adet").text(e);
+                },
+                error: function (jqXHR, exception) {
+                    alert("Bir Hata Oluştu!");
+
+                }
+            });
+        }
+
+        $("#kaydet").click(function (e) {
+            var katId = $("#katId option:selected").attr("data-id");
+            var snvId = $("#snvId option:selected").attr("data-id");
+            soruAdet();
+            var soru = $("#soru").val().substr(0, 1).toUpperCase() + $("#soru").val().substr(1);
+            if (soru.length < 3) {
+                alert("Lütfen Soru Giriniz.");
+                e.preventDefault;
+                return false;
+            }
+            var soruisareti = soru.substr(soru.length - 1, 1);
+            if (soruisareti != "?") {
+                soru = soru + "?";
+            }
+            var cevaplar = new Array();
+            var durum = new Array();
+            var puan = $("#puan").val();
+
+
+            var ack = $("#ack").text();
+            var kaydet = "Kaydet";
+            var dogruSayisi = 0;
+            $("#ul li").each(function (i) {
+                var dogrumu = $(this).children("input:checked").val();
+                var sira = $(this).attr("data-sira");
+                if (dogrumu == null || dogrumu == undefined) {
+                    dogrumu = false;
+                } else {
+                    dogrumu = true;
+                    dogruSayisi++;
+                }
+                var cevap = $(this).text().slice(0, -5).trim();
+                cevaplar.push(cevap);
+                durum.push(dogrumu);
+            });
+            if (dogruSayisi > 1 || dogruSayisi < 1) {
+                alert("Test Sorularında, Yalnızca Bir Şık Doğru Olabilir! Lütfen Tek Bir Doğru Şık İşaretleyiniz!");
+                $("#ul li").first().focus();
+                e.preventDefault;
+                return false;
+            }
+            if (puan == null || puan == "") {
+                var defaultMu = confirm("Soru Puanı Default 100 Puan Geçilsin mi?");
+            }
+            if (defaultMu) {
+                puan = 100;
+            }
+            else if (puan == null || puan == "") {
+                $("#puan").focus();
+                e.preventDefault;
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: '../Ekle/AnketKaydet',
+                datatype: "json",
+                data: {
+                    "katId": katId,
+                    "snvId": snvId,
+                    "soru": soru,
+                    "cevaplar[]": cevaplar,
+                    "durum[]": durum,
+                    "puan":puan,
+                    "ack": ack,
+                    "kaydet": kaydet
+                },
+                success: function (e) {
+                    alert("Başarılı Bir Şekilde, Test Sorusu Eklenmiştir.");
+                    window.location.href = '@Url.Action("TestEkle", "Ekle")'
+                },
+                error: function (jqXHR, exception) {
+                    alert("Bir Hata Oluştu! Lütfen Tekrar Deneyiniz.");
+
+                }
+            });//ajax json post
+        });//kaydet click
+
+
+
+        $(function Sirala() {
+            for (var i = 0; i < $(".liste ul li").length; i++) {
+                $(".liste ul li").eq(i).attr("data-sira", i);
+            }
+        });
+
+        $(".liste ul li").first().css("margin-left", 0 + "px");
+
+
+        $("#soru,#sk").addClass('capitalise');//Baş Harf Büyük yaz
+        $("#sk").keypress(function (event) {
+            if (event.which == 13) {
+                $("#skEkle").click();
+            }
+        });
+        $("#skEkle").click(function (e) {
+            var secenek = $('#sk').val().charAt(0).toUpperCase() + $('#sk').val().slice(1).toLowerCase();
+            if (secenek == null || secenek == "") {
+                alert("Şık Alanı Boş Geçilemez!")
+                e.preventDefault;
+                return false;
+            }
+            $(".liste ul").append(" <li data-id='-0' data-sira='-1'><input type='checkbox' class='checkbox'> " + secenek + " <a id='sil'>&lArr; Sil</a></li>");
+            $("#sk").val("");
+            $(".baslik").show();
+            $("#sk").focus();
+            for (var i = 0; i < $(".liste ul li").length; i++) {
+                $(".liste ul li").eq(i).attr("data-sira", i);
+            }
+
+        });
+        $(".liste").on("click", "#sil", function () {
+            $(this).parent("li").remove();
+        });
+
+
+        $(".liste ul").sortable({
+            opacity: 0.5,
+            update:
+                function () {
+                    for (var i = 0; i < $(".liste ul li").length; i++) {
+                        $(".liste ul li").eq(i).attr("data-sira", i);
+                    }
+                }
+        });
+        $(".liste ul").disableSelection();
+
+        soruAdet();
+    });//document ready
+</script>

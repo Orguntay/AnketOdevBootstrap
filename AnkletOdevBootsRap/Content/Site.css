@@ -1,0 +1,37 @@
+﻿    /*@media ( max-width: @screen-xs){
+        .sag{
+            margin-top: 0px;
+        }
+    }
+    @media (min-width: @screen-sm ) and ( max-width: @screen-md){
+        .sag{
+             margin-top: -48px;
+        }
+    }
+    @media (min-width: @screen-md ){
+        .sag{
+             margin-top: 0px;
+        }
+    }*/
+    /*( max-width: @screen-md)( max-width: 992px)*/
+
+    @media (max-width: @screen-xs-max) {  }
+@media screen and (min-width: @screen-sm-min) and (max-width: 768px) { 
+    /*#myCarousel{
+        margin-top:110px;
+    }*/
+}
+/*md olan yer*/
+@media (min-width: 768px) and (max-width: 992px) { 
+            /*.sag{
+             float:left!important;
+        }*/
+    .kapsayici{
+        margin-top:30px!important;
+    }
+}
+@media (min-width: @screen-lg-min) { 
+        .kapsayici{
+        margin-top:30px!important;
+    }
+}

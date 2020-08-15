@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+<style type="text/css">
+    .form-signin {
+        margin-top: 60px !important;
+    }
+    label span {
+        margin-left: 20px;
+    }
+    label input[type=checkbox] {
+        margin-left: 0px!important;
+    }
+    form input[type=email]{
+        margin-top:30px;
+    }
+</style>
+<link href="~/Content/signin.css" rel="stylesheet" />
+
+<div class="container">
+    <form class="form-signin">
+        @using (Ajax.BeginForm("Login", "Home", FormMethod.Post, new AjaxOptions { UpdateTargetId = "result" }))
+        {
+
+            <h2 class="form-signin-heading">Lütfen Giriş Yapınız</h2>
+            <input type="text" class="form-control" placeholder="Kullanıcı Adı" required autofocus name="kAdi">
+            <input type="password" class="form-control" placeholder="Şifre" required name="sifree">
+
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me">
+                <span> Beni Hatırla</span>
+            </label>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Giriş</button>
+
+        }
+    </form>
+</div> <!-- /container -->

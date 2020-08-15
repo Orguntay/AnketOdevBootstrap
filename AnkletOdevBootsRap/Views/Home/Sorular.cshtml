@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Sorular";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    h2{
+        margin-left:45px;
+    }
+    /***** Liste css i *****/
+    .liste {
+        margin-top: 90px;
+    }
+    .liste ul {
+        text-decoration: none;
+        list-style: none;
+    }
+
+        .liste ul li a {
+            cursor: pointer;
+            color: #0094ff;
+            text-decoration: none;
+            transition: all ease-in-out .5s;
+        }
+
+            .liste ul li a:hover {
+                color: rgba(255, 143, 5, 0.85);
+            }
+    /***** Liste css i Sonu *****/
+</style>
+
+<div class="liste">
+    <div class="col-md-6">
+        <h2>Anketler</h2>
+        <ul>
+            <li><a>Dünya yok olacak mı?</a></li>
+            <li><a>Anneler duygusal mı?</a></li>
+            <li><a>Babamın bir atı olacak mı?</a></li>
+            <li><a>Dünyanın 9. harikası var mı?</a></li>
+            <li><a>Çocuklar ne zaman büyür?</a></li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h2>Testler</h2>
+        <ul>
+            <li><a>Matematik 13A</a></li>
+            <li><a>Tarih 27C</a></li>
+            <li><a>Coğrafya 3B</a></li>
+            <li><a>Genel Kültür 1B</a></li>
+            <li><a>Müzik 8C</a></li>
+        </ul>
+    </div>
+</div>
+@*<script src="~/Scripts/jquery-2.1.1.js"></script>*@
+@*<script type="text/javascript">
+    $(document).witdh();
+</script>*@
+
+@if (Session["yetki"] == "uye")
+{
+    <script>alert("Üyeliğiniz Başarıyla Gerçekleşmiştir. Yarışmya Başlayabilirsiniz."); </script>
+}

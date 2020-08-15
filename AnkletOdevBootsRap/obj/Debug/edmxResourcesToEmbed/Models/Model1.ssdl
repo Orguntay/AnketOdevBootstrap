@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="odevDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="cevaplar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="soruId" Type="int" Nullable="false" />
+    <Property Name="sira" Type="int" />
+    <Property Name="cevap" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="dogrumu" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="katagoriler">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ustId" Type="int" />
+    <Property Name="adi" Type="varchar" MaxLength="50" />
+    <Property Name="aciklama" Type="varchar" MaxLength="500" />
+    <Property Name="tarih" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sinavlar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="katId" Type="int" Nullable="false" />
+    <Property Name="ad" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="testmi" Type="bit" />
+    <Property Name="puan" Type="int" />
+  </EntityType>
+  <EntityType Name="sorular">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="int" />
+    <Property Name="katID" Type="int" />
+    <Property Name="sinavId" Type="int" Nullable="false" />
+    <Property Name="soru" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="aciklama" Type="varchar" MaxLength="500" />
+    <Property Name="puan" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="yetki" Type="varchar" MaxLength="50" />
+    <Property Name="kullaniciadi" Type="varchar" MaxLength="50" />
+    <Property Name="sifre" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="userSonuc">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userID" Type="int" Nullable="false" />
+    <Property Name="soruId" Type="int" />
+    <Property Name="dogruCvpSys" Type="int" />
+    <Property Name="yanlisCvpSys" Type="int" />
+  </EntityType>
+  <Association Name="FK_cevaplar_sorular">
+    <End Role="sorular" Type="Self.sorular" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="cevaplar" Type="Self.cevaplar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="sorular">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cevaplar">
+        <PropertyRef Name="soruId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sinavlar_katagoriler">
+    <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="sinavlar" Type="Self.sinavlar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="katagoriler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sinavlar">
+        <PropertyRef Name="katId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sorular_katagoriler">
+    <End Role="katagoriler" Type="Self.katagoriler" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="katagoriler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sorular">
+        <PropertyRef Name="katID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sorular_users1">
+    <End Role="users" Type="Self.users" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="sorular" Type="Self.sorular" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sorular">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_userSonuc_users">
+    <End Role="users" Type="Self.users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="userSonuc" Type="Self.userSonuc" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="userSonuc">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="odevDBModelStoreContainer">
+    <EntitySet Name="cevaplar" EntityType="Self.cevaplar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="katagoriler" EntityType="Self.katagoriler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sinavlar" EntityType="Self.sinavlar" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sorular" EntityType="Self.sorular" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userSonuc" EntityType="Self.userSonuc" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_cevaplar_sorular" Association="Self.FK_cevaplar_sorular">
+      <End Role="sorular" EntitySet="sorular" />
+      <End Role="cevaplar" EntitySet="cevaplar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sinavlar_katagoriler" Association="Self.FK_sinavlar_katagoriler">
+      <End Role="katagoriler" EntitySet="katagoriler" />
+      <End Role="sinavlar" EntitySet="sinavlar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sorular_katagoriler" Association="Self.FK_sorular_katagoriler">
+      <End Role="katagoriler" EntitySet="katagoriler" />
+      <End Role="sorular" EntitySet="sorular" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sorular_users1" Association="Self.FK_sorular_users1">
+      <End Role="users" EntitySet="users" />
+      <End Role="sorular" EntitySet="sorular" />
+    </AssociationSet>
+    <AssociationSet Name="FK_userSonuc_users" Association="Self.FK_userSonuc_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="userSonuc" EntitySet="userSonuc" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

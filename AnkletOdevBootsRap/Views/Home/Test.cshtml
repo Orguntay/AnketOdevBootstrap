@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Test";
+}
+<style type="text/css">
+    .sn {
+        /*position:absolute;*/
+        font-size: 36px;
+        font-weight: 700;
+        top: 80px;
+        border-radius: 50%;
+        background-color: #FF8F00;
+        color: #A00000;
+        text-align: center;
+        /*z-index:333;*/
+    }
+    #sn {
+        font-size: 26px;
+        color: green;
+    }
+    #soru {
+        font-size: 26px;
+        /*margin-top:45px !important;*/
+        text-align: center;
+    }
+    #cevap {
+        font-size: 26px;
+        /*margin-top: 100px !important;*/
+        /*text-align: center;*/
+    }
+    .radio {
+        margin-top: -5px;
+    }
+    #konu {
+        font-size: 26px;
+        margin-top: 90px;
+    }
+    .radio label {
+        line-height: 20px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4" id="konu">
+            <span>Matematik 8C/132</span>
+            <p class="help-block"></p>
+        </div>
+        <div class="col-md-4 sn">
+            <span>30</span><span id="sn"> Dakika </span><span>00</span> <span id="sn">Saniye</span>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>
+<div id="soru">
+    <span>Soru : 1/30</span>
+    <p class="help-block"></p>
+    <p>Dünyanın en güzel içeceği hangisidir?</p>
+</div>
+<div id="cevap" class="col-md-12">
+    <hr />
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+            Rakı
+        </label>
+    </div>
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            Su
+        </label>
+    </div>
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+            Kokain
+        </label>
+    </div>
+
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+            Pekmez
+        </label>
+    </div>
+
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios4" value="option2">
+            Sirke
+        </label>
+    </div>
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios5" value="option3">
+            Şarap
+        </label>
+    </div>
+
+    @*<div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+            Pekmez
+        </label>
+    </div>
+    <div class="radio col-md-3">
+        <label>
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+            Pekmez
+        </label>
+    </div>*@
+    <hr />
+
+</div>
+<div class="col-md-12">
+    <div class="col-md-5">
+        <button type="button" class="btn btn-warning pull-right" title="<<Geri">Geri <<</button>
+    </div>
+    <div class="col-md-2" style="text-align:center;">
+        <button type="button" class="btn btn-success">Tamam</button>
+    </div>
+    <div class="col-md-5">
+        <button type="button" class="btn btn-warning pull-left">İleri >></button>
+    </div>
+</div>
+<div class="col-md-12">
+    <button type="button" class="btn btn-danger pull-right">Testi Bitir</button>
+</div>
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            $('#myModal').modal('show')
+        });
+
+    </script>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Test Başlasın mı?</h4>
+            </div>
+            <div class="modal-body">
+                <p>Matematik 8C/132</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary">Hazırım Test Başlasın</button>
+            </div>
+        </div>
+    </div>
+</div>
